@@ -1,101 +1,252 @@
-import Image from "next/image";
+
+"use client"
+
+import { useState } from 'react';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    education: '',
+    experience: '',
+    currentPosition: '',
+    certifications: '',
+    projects: '',
+    skills: '',
+  });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  const [submitted, setSubmitted] = useState(false); // Track if form is submitted
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true); // Mark form as submitted
+  };
+
+  const handlePrint = () => {
+    window.print(); // Trigger browser's print functionality
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
+      <h1 className="text-5xl font-bold text-blue-600 mb-8">Resume Builder</h1>
+
+      <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg p-8">
+        {!submitted && (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Name */}
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+                Full Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200 text-green-800"
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                Email Address
+              </label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200 text-green-800"
+                placeholder="Enter your email address"
+                required
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200 text-green-800"
+                placeholder="Enter a password"
+                required
+              />
+            </div>
+
+            {/* Current Position */}
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="currentPosition">
+                Current Position
+              </label>
+              <input
+                type="text"
+                name="currentPosition"
+                id="currentPosition"
+                value={formData.currentPosition}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200 text-green-800"
+                placeholder="Enter your current position"
+                required
+              />
+            </div>
+
+            {/* Education */}
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="education">
+                Education
+              </label>
+              <textarea
+                name="education"
+                id="education"
+                value={formData.education}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200 text-green-800"
+                placeholder="Enter your educational background"
+                rows={3}
+                required
+              />
+            </div>
+
+            {/* Certifications */}
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="certifications">
+                Certifications
+              </label>
+              <textarea
+                name="certifications"
+                id="certifications"
+                value={formData.certifications}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200 text-green-800"
+                placeholder="Enter your certifications"
+                rows={2}
+                required
+              />
+            </div>
+
+            {/* Projects with Links */}
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="projects">
+                Projects (with Links)
+              </label>
+              <textarea
+                name="projects"
+                id="projects"
+                value={formData.projects}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200 text-green-800"
+                placeholder="List your projects and their links"
+                rows={3}
+                required
+              />
+            </div>
+
+            {/* Experience */}
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="experience">
+                Work Experience
+              </label>
+              <textarea
+                name="experience"
+                id="experience"
+                value={formData.experience}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200 text-green-800"
+                placeholder="Enter your work experience"
+                rows={3}
+                required
+              />
+            </div>
+
+            {/* Skills */}
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="skills">
+                Skills
+              </label>
+              <textarea
+                name="skills"
+                id="skills"
+                value={formData.skills}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200 text-green-800"
+                placeholder="List your skills"
+                rows={3}
+                required
+              />
+            </div>
+
+            {/* Submit Button */}
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="w-full max-w-xs bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200 ease-in-out"
+              >
+                Submit Resume
+              </button>
+            </div>
+          </form>
+        )}
+
+        {submitted && (
+          <div className="mt-8">
+            <h2 className="text-3xl font-bold text-blue-600 mb-6">Your Resume</h2>
+
+            <div className="bg-gray-50 p-6 rounded-lg shadow-lg">
+              <p className="text-lg text-green-900">
+                <strong>Name:</strong> {formData.name}
+              </p>
+              <p className="text-lg text-green-900">
+                <strong>Email:</strong> {formData.email}
+              </p>
+              <p className="text-lg text-green-900">
+                <strong>Current Position:</strong> {formData.currentPosition}
+              </p>
+              <p className="text-lg text-green-900">
+                <strong>Education:</strong> {formData.education}
+              </p>
+              <p className="text-lg text-green-900">
+                <strong>Certifications:</strong> {formData.certifications}
+              </p>
+              <p className="text-lg text-green-900">
+                <strong>Projects:</strong> {formData.projects}
+              </p>
+              <p className="text-lg text-green-900">
+                <strong>Work Experience:</strong> {formData.experience}
+              </p>
+              <p className="text-lg text-green-900">
+                <strong>Skills:</strong> {formData.skills}
+              </p>
+            </div>
+
+            {/* Print Button */}
+            <div className="mt-6 flex justify-center">
+              <button
+                onClick={handlePrint}
+                className="bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition duration-200 ease-in-out"
+              >
+                Print Resume
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
